@@ -1,0 +1,111 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "This template creates a Lambda function and its associated IAM role\
+  \ and policies.   It also creates the VPC endpoint needed to interface with Secrets\
+  \ Manager.\n"
+Parameters:
+  PEERENDPOINT:
+    Type: String
+  CAENDPOINT:
+    Type: String
+  ORDERERENDPOINT:
+    Type: String
+  CHANNELNAME:
+    Type: String
+  CHAINCODEID:
+    Type: String
+  MSP:
+    Type: String
+  MEMBERNAME:
+    Type: String
+  SECURITYGROUPID:
+    Type: String
+  SUBNETID:
+    Type: String
+  VPCID:
+    Type: String
+  LAMBDANAME:
+    Type: String
+Resources:
+  SecretsManagerReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - secretsmanager:GetResourcePolicy
+          - secretsmanager:GetSecretValue
+          - secretsmanager:DescribeSecret
+          - secretsmanager:ListSecretVersionIds
+          Resource:
+            Fn::Sub: arn:aws:secretsmanager:us-east-1:${AWS::AccountId}:secret:dev/fabricOrgs/${MEMBERNAME}/*
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - Ref: SecretsManagerReadPolicy
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+  NGOLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs10.x
+      CodeUri: s3://test-fabric-lambda-n/adbb98f79a1d7b47b10ae5adf767e2e8
+      FunctionName:
+        Ref: LAMBDANAME
+      MemorySize: 512
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+      Timeout: 15
+      Environment:
+        Variables:
+          CA_ENDPOINT:
+            Ref: CAENDPOINT
+          PEER_ENDPOINT:
+            Ref: PEERENDPOINT
+          ORDERER_ENDPOINT:
+            Ref: ORDERERENDPOINT
+          CHANNEL_NAME:
+            Ref: CHANNELNAME
+          CHAIN_CODE_ID:
+            Ref: CHAINCODEID
+          CRYPTO_FOLDER: /tmp
+          MSP:
+            Ref: MSP
+          MEMBERNAME:
+            Ref: MEMBERNAME
+      VpcConfig:
+        SecurityGroupIds:
+        - Ref: SECURITYGROUPID
+        SubnetIds:
+        - Ref: SUBNETID
+      Events: {}
+  SecretsManagerVPCE:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      SecurityGroupIds:
+      - Ref: SECURITYGROUPID
+      SubnetIds:
+      - Ref: SUBNETID
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: VPCID
+      ServiceName: com.amazonaws.us-east-1.secretsmanager
+      PrivateDnsEnabled: false
+Outputs:
+  NGOLambdaFunction:
+    Description: API Gateway endpoint URL for Dev stage
+    Value: test
