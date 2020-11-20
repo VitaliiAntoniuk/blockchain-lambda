@@ -32,7 +32,7 @@ async function setupChannel() {
     }
 
     let peer = channel.getPeers()[0];
-    const pemfile = fs.readFileSync(path.resolve(__dirname, "./managedblockchain-tls-chain.pem"), "utf8");
+    const pemfile = fs.readFileSync(path.resolve(__dirname, "./certs/managedblockchain-tls-chain.pem"), "utf8");
 
     if (!peer) {
         let peerEndpoints = config.peerEndpoint.split(",");
