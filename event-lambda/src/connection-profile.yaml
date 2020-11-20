@@ -41,7 +41,7 @@ orderers:
     grpcOptions:
       ssl-target-name-override: orderer.n-eot45dplyzefvjgv3bqt4ryutm.managedblockchain.us-east-1.amazonaws.com
     tlsCACerts:
-      path: /Users/vitalii/Documents/www/non-profit-blockchain/event-lambda/managedblockchain-tls-chain.pem
+      path: ./managedblockchain-tls-chain.pem
 
 peers:
   peer1:
@@ -50,7 +50,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: nd-erl7ritelffnjas5yyxcoru6ru.m-47buhsjjdzbuvppgvzcrdnz3hm.n-eot45dplyzefvjgv3bqt4ryutm.managedblockchain.us-east-1.amazonaws.com
     tlsCACerts:
-      path: /Users/vitalii/Documents/www/non-profit-blockchain/event-lambda/managedblockchain-tls-chain.pem
+      path: ./managedblockchain-tls-chain.pem
 
 certificateAuthorities:
   ca-org1:
@@ -58,7 +58,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: /Users/vitalii/Documents/www/non-profit-blockchain/event-lambda/managedblockchain-tls-chain.pem
+      path: ./managedblockchain-tls-chain.pem
     registrar:
       - enrollId: admin
         enrollSecret: Adminpwd1!
