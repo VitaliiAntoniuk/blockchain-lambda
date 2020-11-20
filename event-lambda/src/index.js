@@ -38,10 +38,9 @@ async function handler(event, context, callback) {
 
         transactionId = fabricClient.newTransactionID();
         logger.info("=== Created transactionId ===" + transactionId.getTransactionID());
-        request['args'] = "createDonor","{\"donorUserName\": \"test\", \"email\": \"test@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"
+        request['args'] = "createDonor","{\"donorUserName\": \"test2\", \"email\": \"test2@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"
         request['txId'] = transactionId;
         request['targets'] = channel.getPeers();
-        request['chaincodeId'] = "mychannel"
         request['chaincodeId'] = "mychannel"
 
         // send proposal to endorsing peers
