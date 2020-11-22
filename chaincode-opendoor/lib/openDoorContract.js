@@ -1,7 +1,6 @@
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
-const {createHash} = require('crypto');
 
 class OpenDoorContract extends Contract {
 

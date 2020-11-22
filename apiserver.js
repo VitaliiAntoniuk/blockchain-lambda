@@ -10,6 +10,7 @@ const path = require('path');
 const fs = require('fs');
 const ccpPath = path.resolve(__dirname, '.',  'connection-org1.json');
 const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+const {createHash} = require('crypto');
 
 app.get('/api/queryallcars', async function (req, res) {
     try {
