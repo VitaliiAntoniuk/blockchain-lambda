@@ -5,16 +5,18 @@ const {createHash} = require('crypto');
 
 class OpenDoorContract extends Contract {
 
-    async InitLedger(ctx) {
+    async initLedger(ctx) {
         const assets = [
             {
                 ID: 'first',
                 message: 'Garden door open!',
+                user: "Test",
                 createAt: "2020-07-04 17:19:11",
             },
             {
                 ID: 'second',
                 message: 'Office door open!',
+                user: "Test",
                 createAt: "2020-07-04 17:19:11",
             }
         ];
@@ -27,7 +29,7 @@ class OpenDoorContract extends Contract {
     }
 
     // CreateAsset issues a new asset to the world state with given details.
-    async CreateAsset(ctx, message, user) {
+    async createMessage(ctx, message, user) {
         let ID = createHash('sha256').digest('base64');
         let dt = new Date();
         let date = dt.toISOString() ;
@@ -42,7 +44,7 @@ class OpenDoorContract extends Contract {
     }
 
     // GetAllAssets returns all assets found in the world state.
-    async GetAllAssets(ctx) {
+    async getAllMessage(ctx) {
         const allResults = [];
         // range query with empty string for startKey and endKey does an open-ended query of all assets in the chaincode namespace.
         const iterator = await ctx.stub.getStateByRange('', '');
