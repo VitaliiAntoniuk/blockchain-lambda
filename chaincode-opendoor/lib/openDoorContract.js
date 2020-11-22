@@ -29,17 +29,14 @@ class OpenDoorContract extends Contract {
     }
 
     // CreateAsset issues a new asset to the world state with given details.
-    async createMessage(ctx, message, user) {
-        let ID = createHash('sha256').digest('base64');
-        let dt = new Date();
-        let date = dt.toISOString() ;
+    async createMessage(ctx, message, user, id, date) {
         const asset = {
-            ID: ID,
+            ID: id,
             message : message,
             user: user,
             createAt: date,
         };
-        ctx.stub.putState(ID, Buffer.from(JSON.stringify(asset)));
+        ctx.stub.putState(id, Buffer.from(JSON.stringify(asset)));
         return JSON.stringify(asset);
     }
 
