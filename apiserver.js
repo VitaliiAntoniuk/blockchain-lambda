@@ -201,9 +201,11 @@ app.post('/api/door/add', async function (req, res) {
         const contract = network.getContract('door');
 
         // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        await contract.submitTransaction('createMessage', req.body.message, req.body.user);
+        let id = createHash('sha256').digest('base64');
+        let dt = new Date();
+        let date = dt.toISOString();
+
+        await contract.submitTransaction('createMessage', req.body.message, req.body.user, id, date);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 
