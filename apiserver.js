@@ -198,7 +198,7 @@ app.post('/api/door/add', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('door-new');
+        const contract = network.getContract('door');
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
@@ -240,7 +240,7 @@ app.get('/api/door/all', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('door-new');
+        const contract = network.getContract('door');
 
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')

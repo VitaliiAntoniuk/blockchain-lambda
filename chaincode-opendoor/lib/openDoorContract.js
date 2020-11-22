@@ -39,7 +39,7 @@ class OpenDoorContract extends Contract {
             user: user,
             createAt: date,
         };
-        ctx.stub.putState(id, Buffer.from(JSON.stringify(asset)));
+        ctx.stub.putState(ID, Buffer.from(JSON.stringify(asset)));
         return JSON.stringify(asset);
     }
 
