@@ -370,8 +370,8 @@ app.get('/api/user/:user_email', async function (req, res) {
         const contract = network.getContract('user-balance');
 
         const result = await contract.evaluateTransaction('readUser', req.params.user_email);
-        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-        res.status(200).json({payload: [JSON.parse(result.toString())]});
+        console.log(`Transaction has been evaluated, result is: ${result}`);
+        res.status(200).json({payload: [JSON.parse(result)]});
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
@@ -404,8 +404,7 @@ app.get('/api/user/delete/:user_email', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('user-balance');
 
-        const result = await contract.evaluateTransaction('deleteUser', req.params.user_email);
-        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        await contract.evaluateTransaction('deleteUser', req.params.user_email);
         res.send('User has been deleted');
 
     } catch (error) {
