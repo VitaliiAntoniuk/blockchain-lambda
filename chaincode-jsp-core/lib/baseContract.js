@@ -52,6 +52,14 @@ class BaseContract extends Contract {
         return  await ctx.stub.getState(email);
     }
 
+    async getUser(ctx, email) {
+        const assetJSON = await ctx.stub.getState(email);
+        if (!assetJSON || assetJSON.length === 0) {
+            throw new Error(`The user ${email} does not exist`);
+        }
+        return assetJSON.toString();
+    }
+
     // DeleteUser deletes an given email from the world state.
     async deleteUser(ctx, email) {
         const exists = await this.userExists(ctx, email);

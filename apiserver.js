@@ -84,7 +84,7 @@ app.get('/api/query/:car_index', async function (req, res) {
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         const result = await contract.evaluateTransaction('queryCar', req.params.car_index);
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-        res.status(200).json({response: result.toString()});
+        res.status(200).json({response: JSON.parse(result.toString())});
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
@@ -369,7 +369,7 @@ app.get('/api/user/:user_email', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('user-balance');
 
-        const result = await contract.evaluateTransaction('readUser', req.params.user_email);
+        const result = await contract.evaluateTransaction('getUser', req.params.user_email);
         console.log(`Transaction has been evaluated, result is: ${result}`);
         res.status(200).json({payload: [JSON.parse(result)]});
 
