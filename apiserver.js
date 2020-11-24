@@ -291,7 +291,7 @@ app.post('/api/user/update-balance', async function (req, res) {
         let dt = new Date();
         let date = dt.toISOString();
 
-        await contract.submitTransaction('updateUserBalance', req.body.email, req.body.balance, date);
+        await contract.submitTransaction('updateUserBalance', req.body.email, parseInt(req.body.balance, 10), date);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 
@@ -404,7 +404,7 @@ app.get('/api/user/delete/:user_email', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('users-balance');
 
-        await contract.evaluateTransaction('deleteUser', req.params.user_email);
+        await contract.submitTransaction('deleteUser', req.params.user_email);
         res.send('User has been deleted');
 
     } catch (error) {
