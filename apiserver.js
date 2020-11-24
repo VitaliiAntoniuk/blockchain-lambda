@@ -300,6 +300,7 @@ app.post('/api/user/update-balance', async function (req, res) {
 
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
+        res.status(500).json({error: error});
     }
 })
 
