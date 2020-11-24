@@ -12,7 +12,6 @@ class BaseContract extends Contract {
     // Not recommended use. Use method updateUser
     async createUser(ctx, email, balance, date) {
         const user = {
-            id: email,
             email : email,
             Owner: email,
             balance: balance,
@@ -30,12 +29,11 @@ class BaseContract extends Contract {
             user = await this.createUser(ctx, email, balance, date);
         }else {
             user = JSON.parse(user);
-            balance = user.balance + balance;
+            balance = parseInt(user.balance, 10) + parseInt(balance, 10);
             if(balance < 0){
                 throw new Error('Balance cant be empty');
             }
             user = {
-                id: email,
                 email : email,
                 Owner: email,
                 balance: balance,

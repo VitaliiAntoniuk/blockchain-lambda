@@ -60,7 +60,6 @@ describe('Asset Transfer Basic Tests', () => {
         });
 
         asset = {
-            id: email,
             email : email,
             Owner: email,
             balance: 100,
@@ -91,6 +90,21 @@ describe('Asset Transfer Basic Tests', () => {
             let res = await assetTransfer.readUser(transactionContext, asset.email);
             expect(res).to.undefined;
         });
+        it('should return undefined on getUser', async () => {
+            let assetTransfer = new AssetTransfer();
+            await assetTransfer.createUser(transactionContext, asset.email, asset.balance, asset.createAt);
+
+            let res = await assetTransfer.getUser(transactionContext, asset.email);
+            expect(res).is.string;
+        });
+        it('should return undefined on getUser', async () => {
+            let assetTransfer = new AssetTransfer();
+            try {
+                await assetTransfer.getUser(transactionContext, 'test1@gmail.com');
+            }catch (err) {
+                expect(err.message).to.equal('The user test1@gmail.com does not exist');
+            }
+        });
     });
 
     describe('Test existUser', () => {
@@ -110,7 +124,6 @@ describe('Asset Transfer Basic Tests', () => {
             let updateAt = (new Date()).toISOString();
             let user = await assetTransfer.updateUserBalance(transactionContext, asset.email, 20, updateAt);
             let expected = {
-                id: asset.email,
                 email : asset.email,
                 Owner: asset.email,
                 balance: 120,
@@ -128,7 +141,6 @@ describe('Asset Transfer Basic Tests', () => {
             let balance = 20;
             let user = await assetTransfer.updateUserBalance(transactionContext, email, balance, createAt);
             let expected = {
-                id: email,
                 email : email,
                 Owner: email,
                 balance: balance,
@@ -144,7 +156,6 @@ describe('Asset Transfer Basic Tests', () => {
             let updateAt = (new Date()).toISOString();
             let user = await assetTransfer.updateUserBalance(transactionContext, asset.email, -20, updateAt);
             let expected = {
-                id: asset.email,
                 email : asset.email,
                 Owner: asset.email,
                 balance: 80,
@@ -202,9 +213,9 @@ describe('Asset Transfer Basic Tests', () => {
             expect(ret.length).to.equal(3);
 
             let expected = [
-                {Record: {id: 'test@gmail.com', email: 'test@gmail.com', Owner: 'test@gmail.com', balance: 100, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}},
-                {Record: {id: 'test2@gmail.com', email: 'test2@gmail.com', Owner: 'test2@gmail.com', balance: 20, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}},
-                {Record: {id: 'test3@gmail.com', email: 'test3@gmail.com', Owner: 'test3@gmail.com', balance: 30, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}}
+                {Record: {email: 'test@gmail.com', Owner: 'test@gmail.com', balance: 100, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}},
+                {Record: {email: 'test2@gmail.com', Owner: 'test2@gmail.com', balance: 20, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}},
+                {Record: {email: 'test3@gmail.com', Owner: 'test3@gmail.com', balance: 30, createAt: '2020-11-23T18:26:09.260Z', updateAt: ''}}
             ];
 
             expect(ret).to.eql(expected);
