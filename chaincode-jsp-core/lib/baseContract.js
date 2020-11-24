@@ -26,7 +26,7 @@ class BaseContract extends Contract {
     // UpdateUserBalance updates an existing user balance in the world state with provided parameters.
     async updateUserBalance(ctx, email, balance, date) {
         let user = await this.readUser(ctx, email);
-        if (user === undefined) {
+        if (!user || user.length === 0) {
             user = await this.createUser(ctx, email, balance, date);
         }else {
             user = JSON.parse(user);
