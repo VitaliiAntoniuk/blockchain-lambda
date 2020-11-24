@@ -291,7 +291,7 @@ app.post('/api/user/update-balance', async function (req, res) {
         let dt = new Date();
         let date = dt.toISOString();
 
-        await contract.submitTransaction('updateUserBalance', req.body.email, parseInt(req.body.balance, 10), date);
+        await contract.submitTransaction('updateUserBalance', req.body.email, req.body.balance, date);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 
