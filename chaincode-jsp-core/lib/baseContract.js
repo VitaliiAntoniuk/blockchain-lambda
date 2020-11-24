@@ -26,7 +26,7 @@ class BaseContract extends Contract {
     async updateUserBalance(ctx, email, balance, date) {
         let user = await this.readUser(ctx, email);
         if (!user || user.length === 0) {
-            user = await this.createUser(ctx, email, balance, date);
+            user = await this.createUser(ctx, email, parseInt(balance, 10), date);
         }else {
             user = JSON.parse(user);
             balance = parseInt(user.balance, 10) + parseInt(balance, 10);
