@@ -285,7 +285,7 @@ app.post('/api/user/update-balance', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('users-balances');
+        const contract = network.getContract('user-balance');
 
         // Submit the specified transaction.
         let dt = new Date();
@@ -328,7 +328,7 @@ app.get('/api/user/all', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('users-balances');
+        const contract = network.getContract('user-balance');
 
         const result = await contract.evaluateTransaction('getAllUsers');
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
@@ -368,7 +368,7 @@ app.get('/api/user/:user_email', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('users-balances');
+        const contract = network.getContract('user-balance');
 
         const result = await contract.evaluateTransaction('getUser', req.params.user_email);
         console.log(`Transaction has been evaluated, result is: ${result}`);
@@ -403,7 +403,7 @@ app.get('/api/user/delete/:user_email', async function (req, res) {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('users-balances');
+        const contract = network.getContract('user-balance');
 
         await contract.submitTransaction('deleteUser', req.params.user_email);
         res.send('User has been deleted');
