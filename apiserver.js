@@ -282,10 +282,10 @@ app.post('/api/user/update-balance', async function (req, res) {
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
-        const network = await gateway.getNetwork('mychannel');
+        const network = await gateway.getNetwork('jsp');
 
         // Get the contract from the network.
-        const contract = network.getContract('user-balance');
+        const contract = network.getContract('users-balance');
 
         // Submit the specified transaction.
         let dt = new Date();
@@ -325,10 +325,10 @@ app.get('/api/user/all', async function (req, res) {
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
-        const network = await gateway.getNetwork('mychannel');
+        const network = await gateway.getNetwork('jsp');
 
         // Get the contract from the network.
-        const contract = network.getContract('user-balance');
+        const contract = network.getContract('users-balance');
 
         const result = await contract.evaluateTransaction('getAllUsers');
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
@@ -365,10 +365,10 @@ app.get('/api/user/:user_email', async function (req, res) {
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
-        const network = await gateway.getNetwork('mychannel');
+        const network = await gateway.getNetwork('jsp');
 
         // Get the contract from the network.
-        const contract = network.getContract('user-balance');
+        const contract = network.getContract('users-balance');
 
         const result = await contract.evaluateTransaction('getUser', req.params.user_email);
         console.log(`Transaction has been evaluated, result is: ${result}`);
@@ -400,10 +400,10 @@ app.get('/api/user/delete/:user_email', async function (req, res) {
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
-        const network = await gateway.getNetwork('mychannel');
+        const network = await gateway.getNetwork('jsp');
 
         // Get the contract from the network.
-        const contract = network.getContract('user-balance');
+        const contract = network.getContract('users-balance');
 
         await contract.submitTransaction('deleteUser', req.params.user_email);
         res.send('User has been deleted');
