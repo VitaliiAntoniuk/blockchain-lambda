@@ -1,8 +1,30 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var jwt = require('express-jwt');
+var jwksClient = require('jwks-rsa');
+
+const region = 'us-east-2';
+const poolId = 'us-east-2_TqeiHhn5l';
+const secretURL = `https://cognito-idp.${region}.amazonaws.com/${poolId}/.well-known/jwks.json`;
+const issuer = `https://cognito-idp.${region}.amazonaws.com/${poolId}`;
 
 var app = express();
 app.use(bodyParser.json());
+app.use(jwt({
+        // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
+        secret: jwksClient.expressJwtSecret({
+          cache: true,
+          rateLimit: true,
+          jwksRequestsPerMinute: 5,
+          jwksUri: secretURL
+        }),
+
+        // Validate the audience and the issuer.
+        // audience: '18v4muu7fds1tors5blt4vfpe3',
+        issuer: issuer,
+        algorithms: [ 'RS256' ]
+    })
+);
 
 // Setting for Hyperledger Fabric
 const { Wallets, Gateway } = require('fabric-network');
@@ -379,7 +401,7 @@ app.get('/api/user/:user_email', async function (req, res) {
         res.status(500).json({error: error});
     }
 });
-app.get('/api/user/delete/:user_email', async function (req, res) {
+app.delete('/api/user/:user_email', async function (req, res) {
     try {
 
        // Create a new file system based wallet for managing identities.
