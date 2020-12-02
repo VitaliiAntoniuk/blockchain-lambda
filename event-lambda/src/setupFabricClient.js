@@ -26,9 +26,7 @@ function getSecretIDForKey(keyName, username) {
 
 async function getSecret(keyName, username) {
     const client = new AWS.SecretsManager({
-        region: "us-east-1",
-        accessKeyId: "AKIARAPVCYRAXU7277OZ",
-        secretAccessKey: "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"
+        region: "us-east-1"
     });
     
     return new Promise((resolve, reject) => {
